@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>700 Colorado — Vision Session</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Anton&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       SELF-CONTAINED STYLES — no external CSS required.
+       Edit colors / type here. No branding applied yet.
+       ============================================================ */
+    :root{
+      --black:#0a0a0a;
+      --white:#f6f5f2;
+      --ink:#111;
+      --muted:#8a8a8a;
+      --line:rgba(255,255,255,.14);
+      --line-dark:rgba(0,0,0,.12);
+      --accent:#c7a87a; /* placeholder accent — swap for brand color later */
+      --maxw:1200px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:'Inter',-apple-system,system-ui,sans-serif;
+      background:var(--black);
+      color:var(--white);
+      font-weight:300;
+      line-height:1.6;
+      -webkit-font-smoothing:antialiased;
+    }
+    .container{max-width:var(--maxw);margin:0 auto;padding:0 40px;width:100%;}
+    /* every page = one full screen, for one-page-at-a-time presenting */
+    section{padding:80px 0;min-height:100vh;display:flex;flex-direction:column;justify-content:center;}
+    .section-black{background:var(--black);color:var(--white);}
+    .section-white{background:var(--white);color:var(--ink);}
+
+    /* type */
+    .eyebrow{
+      font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+      font-weight:500;color:var(--accent);margin-bottom:24px;
+    }
+    .section-title{
+      font-size:clamp(28px,4vw,52px);font-weight:200;line-height:1.15;
+      letter-spacing:-.01em;max-width:14ch;margin-bottom:24px;
+    }
+    .lede{font-size:clamp(16px,1.6vw,20px);font-weight:300;max-width:62ch;color:inherit;opacity:.85;}
+    .section-white .eyebrow{color:#9a7c4e;}
+
+    /* hero */
+    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+      border-bottom:1px solid var(--line);}
+    /* hero type: left-justified, 1in from the left edge */
+    .hero .container{max-width:none;margin:0;padding-left:1in;padding-right:40px;text-align:left;}
+    .hero h1{font-size:clamp(36px,6vw,84px);font-weight:200;line-height:1.05;letter-spacing:-.02em;max-width:18ch;}
+    .hero .lede{margin-top:18px;font-size:clamp(12.8px,1.28vw,16px);}
+    .hero-meta{margin-top:48px;display:flex;gap:48px;flex-wrap:wrap;font-size:13px;letter-spacing:.04em;}
+    .hero-meta div span{display:block;color:var(--muted);text-transform:uppercase;font-size:10px;letter-spacing:.2em;margin-bottom:6px;}
+
+    /* competitive */
+    .comp{border-top:1px solid var(--line);}
+    .comp-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:start;margin-top:56px;}
+    .comp-shot{
+      width:100%;aspect-ratio:16/10;background:transparent;
+      display:flex;align-items:center;justify-content:center;color:var(--muted);
+      font-size:12px;letter-spacing:.18em;text-transform:uppercase;overflow:hidden;
+    }
+    .comp-shot img{width:100%;height:100%;object-fit:contain;display:block;}
+    .comp-name{font-size:clamp(24px,3vw,38px);font-weight:200;letter-spacing:-.01em;margin-bottom:6px;}
+    .comp-addr{font-size:14px;color:var(--muted);margin-bottom:28px;}
+    .fact-row{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px;}
+    .fact-row .k{color:var(--muted);text-transform:uppercase;letter-spacing:.12em;font-size:11px;}
+    .fact-row .v{text-align:right;font-weight:400;}
+    .crit-label{margin-top:36px;margin-bottom:14px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);}
+    .crit{list-style:none;}
+    .crit li{position:relative;padding-left:22px;margin-bottom:12px;font-size:14px;opacity:.9;}
+    .crit li::before{content:"—";position:absolute;left:0;color:var(--accent);}
+    .crit-sub{list-style:none;margin-top:12px;padding-left:22px;}
+    .crit-sub li{position:relative;padding-left:22px;margin-bottom:0;font-size:14px;opacity:.9;}
+    .crit-sub li::before{content:"—";position:absolute;left:0;color:var(--accent);}
+
+    /* walkabout — crossfading montage (On-Foot Impression) */
+    .montage{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr);
+      gap:9px;width:100%;max-width:1180px;height:78vh;margin:0 auto;}
+    .walk-stack{display:flex;flex-direction:column;gap:14px;margin-top:34px;}
+    /* static interstitial — three large side-by-side frames */
+    .walk-interstitial{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;height:82vh;}
+    .walk-interstitial .cell{overflow:hidden;background:#1a1a1a;display:flex;align-items:center;justify-content:center;
+      color:var(--muted);font-size:12px;letter-spacing:.18em;text-transform:uppercase;}
+    .walk-interstitial img{width:100%;height:100%;object-fit:cover;display:block;}
+    .walk-interstitial .rotator{position:relative;}
+    .walk-interstitial .rotator .layer{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease;}
+    .walk-interstitial .rotator .layer.show{opacity:1;}
+
+    /* key takeaways & pivot points */
+    .kt-list{margin-top:40px;}
+    .kt-item{display:flex;gap:26px;align-items:baseline;padding:22px 0;border-top:1px solid var(--line);}
+    .kt-item:last-child{border-bottom:1px solid var(--line);}
+    .section-white .kt-item{border-color:rgba(17,17,17,.14);}
+    .kt-num{font-family:'Anton',sans-serif;font-size:22px;line-height:1;color:var(--accent);min-width:42px;}
+    .section-white .kt-num{color:#9a7c4e;}
+    .kt-text{font-size:clamp(16px,1.7vw,19px);font-weight:300;line-height:1.5;opacity:.92;}
+    /* let the collage grow & scroll so more shows at once */
+    #walkabout{justify-content:flex-start;padding-top:88px;padding-bottom:88px;}
+    .montage .tile{overflow:hidden;background:#1a1a1a;position:relative;}
+    .montage .t1{grid-column:1/4;grid-row:1/4;}
+    .montage .t2{grid-column:4/7;grid-row:1/3;}
+    .montage .t3{grid-column:4/6;grid-row:3/5;}
+    .montage .t4{grid-column:6/7;grid-row:3/6;}
+    .montage .t5{grid-column:1/3;grid-row:4/7;}
+    .montage .t6{grid-column:3/4;grid-row:4/7;}
+    .montage .t7{grid-column:4/6;grid-row:5/7;}
+    .montage .t8{grid-column:6/7;grid-row:6/7;}
+    .montage .layer{position:absolute;inset:0;opacity:0;transition:opacity 1.1s ease;}
+    .montage .layer.show{opacity:1;}
+    .montage .layer img{width:100%;height:100%;object-fit:cover;display:block;}
+
+    /* addressable market — radius infographic */
+    .mkt-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:52px;align-items:center;margin-top:36px;}
+    .mkt-svg{width:100%;height:auto;display:block;}
+    .tier{border-top:1px solid var(--line);padding:18px 0;}
+    .tier:first-child{border-top:none;padding-top:0;}
+    .tier .tnum{font-family:'Anton',sans-serif;color:var(--accent);font-size:12px;letter-spacing:.14em;}
+    .tier h3{font-weight:300;font-size:21px;margin:5px 0 7px;letter-spacing:-.01em;}
+    .tier h3 .cnt{color:var(--accent);font-weight:500;}
+    .tier p{font-size:13.5px;opacity:.72;line-height:1.55;max-width:42ch;}
+    .tier .regions{font-size:12px;opacity:.62;margin-top:8px;letter-spacing:.06em;text-transform:uppercase;}
+    @media(max-width:860px){.mkt-grid{grid-template-columns:1fr;gap:28px;}}
+
+    /* creative exercise — prompt board */
+    .cx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px;}
+    .cx-card{border:1px solid var(--line);border-radius:10px;padding:20px 20px 16px;
+      display:flex;flex-direction:column;min-height:132px;background:rgba(255,255,255,.015);}
+    .section-white .cx-card{border-color:rgba(17,17,17,.14);background:rgba(17,17,17,.015);}
+    .cx-card .cx-n{font-family:'Anton',sans-serif;font-size:12px;letter-spacing:.12em;color:var(--accent);margin-bottom:10px;}
+    .section-white .cx-card .cx-n{color:#9a7c4e;}
+    .cx-card .cx-q{font-size:15px;font-weight:400;line-height:1.4;}
+    .cx-card .cx-hint{font-size:12.5px;opacity:.55;margin-top:4px;font-style:italic;}
+    .cx-card .cx-blank{margin-top:auto;border-bottom:1px dashed var(--line);height:26px;}
+    .section-white .cx-card .cx-blank{border-color:rgba(17,17,17,.22);}
+    .cx-intro{max-width:64ch;}
+    /* this page is allowed to grow & scroll rather than lock to one screen */
+    #creative-exercise{justify-content:flex-start;padding-top:88px;padding-bottom:88px;}
+    @media(max-width:900px){.cx-grid{grid-template-columns:repeat(2,1fr);}}
+    @media(max-width:560px){.cx-grid{grid-template-columns:1fr;}}
+    .comp-tag{display:inline-block;margin-top:24px;padding:5px 12px;border:1px solid var(--line);border-radius:999px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+
+    /* competitor — hero page: boxed image (70% of screen), not full bleed */
+    .comp-hero{
+      min-height:100vh;padding:56px 40px;background:var(--white);color:var(--ink);
+      display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:28px;
+    }
+    .comp-hero-cap{text-align:center;}
+    .comp-hero-cap .eyebrow{color:var(--accent);margin-bottom:12px;}
+    .comp-hero-cap h2{font-size:clamp(25px,4.2vw,53px);font-weight:200;letter-spacing:-.02em;line-height:1.02;}
+    .comp-hero-box{
+      width:99%;max-width:1650px;aspect-ratio:16/10;overflow:hidden;margin-top:4vh;
+      background:transparent;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .comp-hero-box img{width:100%;height:100%;object-fit:contain;display:block;}
+    .comp-hero-box .ph-fill{color:var(--muted);font-size:12px;letter-spacing:.2em;text-transform:uppercase;}
+
+    /* competitor — detail page: stacked images left, stats right */
+    .comp-detail-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:56px;align-items:start;margin-top:48px;}
+    .comp-stack{display:flex;flex-direction:column;gap:24px;}
+    .comp-stack .comp-shot{aspect-ratio:16/10;}
+    /* detail page with a feature image + bottom row of three */
+    .comp-feature.comp-shot{aspect-ratio:16/10;}
+    .comp-bottom-row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:28px;}
+    .comp-bottom-row .comp-shot{aspect-ratio:16/10;}
+    @media(max-width:860px){.comp-bottom-row{grid-template-columns:1fr;}}
+    @media(max-width:860px){.comp-detail-grid{grid-template-columns:1fr;gap:32px;}
+      .comp-hero-cap{padding:0 24px 40px;}}
+
+    /* positioning table */
+    .pos-table-wrap{margin-top:48px;overflow-x:auto;}
+    table.pos{width:100%;border-collapse:collapse;font-size:14px;min-width:720px;}
+    table.pos th,table.pos td{text-align:left;padding:18px 16px;border-bottom:1px solid var(--line-dark);vertical-align:top;}
+    table.pos thead th{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#9a7c4e;font-weight:600;}
+    table.pos td:first-child,table.pos th:first-child{font-weight:500;}
+    table.pos .subject{background:rgba(199,168,122,.10);}
+    table.pos .subject td:first-child{color:#9a7c4e;font-weight:600;}
+    .pos-note{margin-top:18px;font-size:12px;color:#777;}
+
+    /* swot */
+    .swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:56px;border:1px solid var(--line);}
+    .swot-cell{padding:40px;border:1px solid var(--line);min-height:280px;}
+    .swot-cell h3{font-size:13px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin-bottom:24px;display:flex;align-items:center;gap:12px;}
+    .swot-cell h3 .dot{width:8px;height:8px;border-radius:50%;display:inline-block;}
+    .s .dot{background:#6ea36e;} .w .dot{background:#c46a6a;}
+    .o .dot{background:#6a8fc4;} .t .dot{background:#c4a86a;}
+    .swot-cell ul{list-style:none;}
+    .swot-cell li{position:relative;padding-left:20px;margin-bottom:14px;font-size:14px;opacity:.9;}
+    .swot-cell li::before{content:"+";position:absolute;left:0;opacity:.5;}
+    .w li::before,.t li::before{content:"−";}
+
+    /* footer */
+    footer{padding:48px 0;border-top:1px solid var(--line);font-size:12px;color:var(--muted);letter-spacing:.06em;}
+    .foot-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+    a.top{color:var(--muted);text-decoration:none;text-transform:uppercase;letter-spacing:.12em;}
+    a.top:hover{color:var(--white);}
+
+    /* section divider — dark */
+    .divider{min-height:100vh;display:flex;align-items:center;background:var(--black);color:var(--white);}
+    .divider-text{font-size:clamp(22px,4vw,52px);font-weight:200;letter-spacing:-.02em;line-height:1;}
+
+    /* simple full-screen statement page */
+    .statement{min-height:100vh;display:flex;align-items:center;}
+    .statement-text{font-size:clamp(30px,4.4vw,60px);font-weight:200;line-height:1.18;letter-spacing:-.01em;max-width:20ch;}
+    /* garish pink sunset background */
+    #statement-01{
+      background:linear-gradient(180deg,#3a1c71 0%,#d76d77 38%,#ff5f9e 60%,#ff8c42 82%,#ffd166 100%);
+      color:#fff;
+    }
+    #statement-01 .statement-text{
+      color:#00e5ff;text-shadow:0 3px 0 #ff009d, 0 2px 18px rgba(0,0,0,.3);
+      font-family:'Anton',Impact,sans-serif;font-weight:400;
+      text-transform:uppercase;letter-spacing:.01em;line-height:1.06;
+      font-size:clamp(36px,5.2vw,76px);max-width:18ch;
+    }
+
+    /* editorial helper — remove when filling real content */
+    .ph{color:var(--accent);font-style:italic;}
+
+    @media(max-width:860px){
+      .comp-grid{grid-template-columns:1fr;gap:32px;}
+      .swot-grid{grid-template-columns:1fr;}
+      section{padding:80px 0;}
+      .container{padding:0 24px;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================ HERO / TITLE ============================ -->
+  <section class="hero section-black">
+    <div class="container">
+      <p class="eyebrow">Vision Session</p>
+      <h1>700 Colorado</h1>
+      <p class="lede">Brand Landscape Audit &amp; Location Study</p>
+    </div>
+  </section>
+
+  <!-- ============================ COMPETITIVE INTRO ============================ -->
+  <section class="comp section-black" id="competitive">
+    <div class="container">
+      <p class="eyebrow">Brand Landscape</p>
+      <h2 class="section-title">What are we up against and how can we stand apart?</h2>
+      <p class="lede">Across the impression sequence: digital search → brand connection → on-foot impression → arrival experience.</p>
+    </div>
+  </section>
+
+  <!-- PAGE 3 — SECTION DIVIDER -->
+  <section class="divider section-black" id="divider-brand-landscape">
+    <div class="container">
+      <h2 class="divider-text">Brand Landscape</h2>
+    </div>
+  </section>
+
+  <!-- PAGE 4 — STATEMENT -->
+  <section class="statement section-white" id="statement-01">
+    <div class="container">
+      <h2 class="statement-text">New Modern Luxury Apartments in Santa Monica California Los Angeles Now Leasing Tour Today!!!</h2>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COMPETITOR 01 — two pages.
+       Page A: full-screen hero (main image + name).
+       Page B: detail (two stacked images left, stats + critique right).
+       Drop images into the src="" attributes; until then a label shows.
+       ============================================================ -->
+
+  <!-- 01 · Page A — full-screen hero -->
+  <section class="comp-hero" id="comp-01">
+    <div class="comp-hero-cap">
+      <p class="eyebrow">Competitor 01</p>
+      <h2>Catherine</h2>
+    </div>
+    <div class="comp-hero-box">
+      <img src="assets/comp01-main.jpg" alt="Catherine Santa Monica" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','&lt;div class=&quot;ph-fill&quot;&gt;MAIN IMAGE&lt;/div&gt;')">
+    </div>
+  </section>
+
+  <!-- 01 · Page B — detail -->
+  <section class="comp section-black" id="comp-01-detail">
+    <div class="container">
+      <p class="eyebrow">Competitor 01 — Detail</p>
+      <div class="comp-detail-grid">
+        <!-- LEFT: two stacked images -->
+        <div class="comp-stack">
+          <div class="comp-shot"><img src="assets/comp01-img2.jpg" alt="" onerror="this.parentNode.textContent='IMAGE 2'"></div>
+          <div class="comp-shot"><img src="assets/comp01-img3.jpg" alt="" onerror="this.parentNode.textContent='IMAGE 3'"></div>
+        </div>
+        <!-- RIGHT: stats + critique -->
+        <div>
+          <h2 class="comp-name">Catherine</h2>
+
+          <p class="crit-label">Takeaways</p>
+          <ul class="crit">
+            <li>Basic blues</li>
+            <li>Odd orange pops</li>
+            <li>Heavy bold font with subscript</li>
+            <li>Bot language and stock lifestyle</li>
+            <li>Low grade interior images</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== END COMPETITOR 01 ===== -->
+
+  <!-- ============================================================
+       COMPETITOR 02 — two pages (1550 Lincoln).
+       ============================================================ -->
+
+  <!-- 02 · Page A — hero -->
+  <section class="comp-hero" id="comp-03">
+    <div class="comp-hero-cap">
+      <p class="eyebrow">Competitor 02</p>
+      <h2>1550 Lincoln</h2>
+    </div>
+    <div class="comp-hero-box">
+      <img src="assets/comp03-main.jpg" alt="1550 Lincoln" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','&lt;div class=&quot;ph-fill&quot;&gt;MAIN IMAGE&lt;/div&gt;')">
+    </div>
+  </section>
+
+  <!-- 02 · Page B — detail -->
+  <section class="comp section-black" id="comp-03-detail">
+    <div class="container">
+      <p class="eyebrow">Competitor 02 — Detail</p>
+      <div class="comp-detail-grid">
+        <div class="comp-feature comp-shot"><img src="assets/comp03-img3.jpg" alt="" onerror="this.parentNode.textContent='FEATURE IMAGE'"></div>
+        <div>
+          <h2 class="comp-name">1550 Lincoln</h2>
+
+          <p class="crit-label">Takeaways</p>
+          <ul class="crit">
+            <li>Business blues</li>
+            <li>Minimal leaning</li>
+            <li>Templated and text heavy</li>
+            <li>Bot language, empty photos</li>
+            <li>Google map neighborhood</li>
+          </ul>
+        </div>
+      </div>
+      <div class="comp-bottom-row" style="grid-template-columns:repeat(2,1fr)">
+        <div class="comp-shot"><img src="assets/comp03-img4.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp03-img5.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== END COMPETITOR 02 (1550 Lincoln) ===== -->
+
+  <!-- ============================================================
+       COMPETITOR 03 — two pages (700 Broadway).
+       ============================================================ -->
+
+  <!-- 03 · Page A — hero -->
+  <section class="comp-hero" id="comp-02">
+    <div class="comp-hero-cap">
+      <p class="eyebrow">Competitor 03</p>
+      <h2>700 Broadway</h2>
+    </div>
+    <div class="comp-hero-box">
+      <img src="assets/comp02-main.jpg" alt="Seven Hundred Broadway" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','&lt;div class=&quot;ph-fill&quot;&gt;MAIN IMAGE&lt;/div&gt;')">
+    </div>
+  </section>
+
+  <!-- 03 · Page B — detail -->
+  <section class="comp section-black" id="comp-02-detail">
+    <div class="container">
+      <p class="eyebrow">Competitor 03 — Detail</p>
+      <div class="comp-detail-grid">
+        <div class="comp-feature comp-shot"><img src="assets/comp02-img3.jpg" alt="" onerror="this.parentNode.textContent='FEATURE IMAGE'"></div>
+        <div>
+          <h2 class="comp-name">700 Broadway</h2>
+
+          <p class="crit-label">Takeaways</p>
+          <ul class="crit">
+            <li>Upscale Related</li>
+            <li>Understated and refined</li>
+            <li>Polished visuals</li>
+            <li>Photogenic floor plans</li>
+            <li>Illustrative accents</li>
+          </ul>
+        </div>
+      </div>
+      <div class="comp-bottom-row">
+        <div class="comp-shot"><img src="assets/comp02-img2.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp02-img4.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp02-img5.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== END COMPETITOR 03 (700 Broadway) ===== -->
+
+  <!-- ============================================================
+       COMPETITOR 04 — two pages (The Park).
+       ============================================================ -->
+
+  <!-- 04 · Page A — hero -->
+  <section class="comp-hero" id="comp-park">
+    <div class="comp-hero-cap">
+      <p class="eyebrow">Competitor 04</p>
+      <h2>The Park</h2>
+    </div>
+    <div class="comp-hero-box">
+      <img src="assets/comp-park-main.jpg" alt="The Park Santa Monica" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','&lt;div class=&quot;ph-fill&quot;&gt;MAIN IMAGE&lt;/div&gt;')">
+    </div>
+  </section>
+
+  <!-- 04 · Page B — detail -->
+  <section class="comp section-black" id="comp-park-detail">
+    <div class="container">
+      <p class="eyebrow">Competitor 04 — Detail</p>
+      <div class="comp-detail-grid">
+        <div class="comp-feature comp-shot"><img src="assets/comp-park-img3.jpg" alt="" onerror="this.parentNode.textContent='FEATURE IMAGE'"></div>
+        <div>
+          <h2 class="comp-name">The Park</h2>
+
+          <p class="crit-label">Takeaways</p>
+          <ul class="crit">
+            <li>Westerly location, closer to the Promenade and beach</li>
+            <li>Large internal park amenity space</li>
+            <li>Organic visuals from park position</li>
+            <li>Higher-end visuals and renderings</li>
+            <li>Trader Joe's on-site</li>
+          </ul>
+        </div>
+      </div>
+      <div class="comp-bottom-row">
+        <div class="comp-shot"><img src="assets/comp-park-img2.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp-park-img4.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp-park-img5.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== END COMPETITOR 04 (The Park) ===== -->
+
+  <!-- ============================================================
+       COMPETITOR 05 — two pages (Santa Monica Collection).
+       Images pending: drop into Comp Websites folder, then wire in.
+       ============================================================ -->
+
+  <!-- 04 · Page A — hero -->
+  <section class="comp-hero" id="comp-04">
+    <div class="comp-hero-cap">
+      <p class="eyebrow">Competitor 05</p>
+      <h2>Santa Monica Collection</h2>
+    </div>
+    <div class="comp-hero-box">
+      <img src="assets/comp04-main.jpg" alt="Santa Monica Collection" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','&lt;div class=&quot;ph-fill&quot;&gt;MAIN IMAGE&lt;/div&gt;')">
+    </div>
+  </section>
+
+  <!-- 04 · Page B — detail -->
+  <section class="comp section-black" id="comp-04-detail">
+    <div class="container">
+      <p class="eyebrow">Competitor 05 — Detail</p>
+      <div class="comp-detail-grid">
+        <div class="comp-feature comp-shot"><img src="assets/comp04-img3.jpg" alt="" onerror="this.parentNode.textContent='FEATURE IMAGE'"></div>
+        <div>
+          <h2 class="comp-name">Santa Monica Collection</h2>
+
+          <p class="crit-label">Takeaways</p>
+          <ul class="crit">
+            <li>Multi-building opportunity</li>
+            <li>Multi-building confusion</li>
+            <li>Simple template and graphics</li>
+            <li>Bullet lists and Google maps</li>
+            <li>Confusing, single leasing office</li>
+          </ul>
+        </div>
+      </div>
+      <div class="comp-bottom-row">
+        <div class="comp-shot"><img src="assets/comp04-img2.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp04-img4.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp04-img5.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== END COMPETITOR 04 ===== -->
+
+  <!-- ============================================================
+       COMPETITOR 05 — two pages (SWAY Santa Monica).
+       Images pending: save into Comp Websites folder, then wire in.
+       ============================================================ -->
+
+  <!-- 05 · Page A — hero -->
+  <section class="comp-hero" id="comp-05">
+    <div class="comp-hero-cap">
+      <p class="eyebrow">Competitor 06</p>
+      <h2>Sway</h2>
+    </div>
+    <div class="comp-hero-box">
+      <img src="assets/comp05-main.jpg" alt="Sway Santa Monica" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','&lt;div class=&quot;ph-fill&quot;&gt;MAIN IMAGE&lt;/div&gt;')">
+    </div>
+  </section>
+
+  <!-- 05 · Page B — detail -->
+  <section class="comp section-black" id="comp-05-detail">
+    <div class="container">
+      <p class="eyebrow">Competitor 06 — Detail</p>
+      <div class="comp-detail-grid">
+        <div class="comp-feature comp-shot"><img src="assets/comp05-img3.jpg" alt="" onerror="this.parentNode.textContent='FEATURE IMAGE'"></div>
+        <div>
+          <h2 class="comp-name">Sway</h2>
+
+          <p class="crit-label">Takeaways</p>
+          <ul class="crit">
+            <li>Ocean blues and watercolor graphics</li>
+            <li>Off-trend script fonts and dated looks</li>
+            <li>Luxury claims</li>
+            <li>Faux surf moments</li>
+            <li>Bullet lists and Google maps</li>
+          </ul>
+        </div>
+      </div>
+      <div class="comp-bottom-row">
+        <div class="comp-shot"><img src="assets/comp05-img2.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp05-img4.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp05-img5.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== END COMPETITOR 06 (Sway) ===== -->
+
+  <!-- ============================================================
+       COMPETITOR 07 — two pages (Gibson Santa Monica).
+       ============================================================ -->
+
+  <!-- 07 · Page A — hero -->
+  <section class="comp-hero" id="comp-06">
+    <div class="comp-hero-cap">
+      <p class="eyebrow">Competitor 07</p>
+      <h2>Gibson</h2>
+    </div>
+    <div class="comp-hero-box">
+      <img src="assets/comp06-main.jpg" alt="Gibson Santa Monica" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','&lt;div class=&quot;ph-fill&quot;&gt;MAIN IMAGE&lt;/div&gt;')">
+    </div>
+  </section>
+
+  <!-- 07 · Page B — detail -->
+  <section class="comp section-black" id="comp-06-detail">
+    <div class="container">
+      <p class="eyebrow">Competitor 07 — Detail</p>
+      <div class="comp-detail-grid">
+        <div class="comp-feature comp-shot"><img src="assets/comp06-img3.jpg" alt="" onerror="this.parentNode.textContent='FEATURE IMAGE'"></div>
+        <div>
+          <h2 class="comp-name">Gibson</h2>
+
+          <p class="crit-label">Takeaways</p>
+          <ul class="crit">
+            <li>Basic palette and 90's fonts</li>
+            <li>Low-end photography</li>
+            <li>Product and staging comes across as dated</li>
+            <li>Trite language</li>
+            <li>Bullet lists and Google maps</li>
+          </ul>
+        </div>
+      </div>
+      <div class="comp-bottom-row">
+        <div class="comp-shot"><img src="assets/comp06-img2.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp06-img4.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp06-img5.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== END COMPETITOR 07 (Gibson) ===== -->
+
+  <!-- ============================================================
+       COMPETITOR 08 — two pages (Anara Santa Monica).
+       Images pending: save into Comp Websites folder, then wire in.
+       ============================================================ -->
+
+  <!-- 07 · Page A — hero -->
+  <section class="comp-hero" id="comp-07">
+    <div class="comp-hero-cap">
+      <p class="eyebrow">Competitor 08</p>
+      <h2>Anara</h2>
+    </div>
+    <div class="comp-hero-box">
+      <img src="assets/comp07-main.jpg" alt="Anara Santa Monica" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','&lt;div class=&quot;ph-fill&quot;&gt;MAIN IMAGE&lt;/div&gt;')">
+    </div>
+  </section>
+
+  <!-- 07 · Page B — detail -->
+  <section class="comp section-black" id="comp-07-detail">
+    <div class="container">
+      <p class="eyebrow">Competitor 08 — Detail</p>
+      <div class="comp-detail-grid">
+        <div class="comp-feature comp-shot"><img src="assets/comp07-img3.jpg" alt="" onerror="this.parentNode.textContent='FEATURE IMAGE'"></div>
+        <div>
+        </div>
+      </div>
+      <div class="comp-bottom-row">
+        <div class="comp-shot"><img src="assets/comp07-img2.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp07-img4.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp07-img5.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== END COMPETITOR 07 ===== -->
+
+  <!-- ============================================================
+       COMPETITOR 08 — two pages (Chelsea Santa Monica).
+       Images pending: save into Comp Websites folder, then wire in.
+       ============================================================ -->
+
+  <!-- 08 · Page A — hero -->
+  <section class="comp-hero" id="comp-08">
+    <div class="comp-hero-cap">
+      <p class="eyebrow">Competitor 09</p>
+      <h2>Chelsea</h2>
+    </div>
+    <div class="comp-hero-box">
+      <img src="assets/comp08-main.jpg" alt="Chelsea Santa Monica" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','&lt;div class=&quot;ph-fill&quot;&gt;MAIN IMAGE&lt;/div&gt;')">
+    </div>
+  </section>
+
+  <!-- 08 · Page B — detail -->
+  <section class="comp section-black" id="comp-08-detail">
+    <div class="container">
+      <p class="eyebrow">Competitor 09 — Detail</p>
+      <div class="comp-detail-grid">
+        <div class="comp-feature comp-shot"><img src="assets/comp08-img3.jpg" alt="" onerror="this.parentNode.textContent='FEATURE IMAGE'"></div>
+        <div>
+        </div>
+      </div>
+      <div class="comp-bottom-row">
+        <div class="comp-shot"><img src="assets/comp08-img2.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp08-img4.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp08-img5.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== END COMPETITOR 08 ===== -->
+
+  <!-- ============================================================
+       COMPETITOR 09 — two pages (Live/Work Lincoln SM — Harlow / Riva / Bixby / Fiona).
+       Images pending: save into Comp Websites folder, then wire in.
+       ============================================================ -->
+
+  <!-- 09 · Page A — hero -->
+  <section class="comp-hero" id="comp-09">
+    <div class="comp-hero-cap">
+      <p class="eyebrow">Competitor 10</p>
+      <h2>Lincoln SM</h2>
+    </div>
+    <div class="comp-hero-box">
+      <img src="assets/comp09-main.jpg" alt="Live Work Lincoln SM" onerror="this.style.display='none';this.parentNode.insertAdjacentHTML('beforeend','&lt;div class=&quot;ph-fill&quot;&gt;MAIN IMAGE&lt;/div&gt;')">
+    </div>
+  </section>
+
+  <!-- 09 · Page B — detail -->
+  <section class="comp section-black" id="comp-09-detail">
+    <div class="container">
+      <p class="eyebrow">Competitor 10 — Detail</p>
+      <div class="comp-detail-grid">
+        <div class="comp-feature comp-shot"><img src="assets/comp09-img3.jpg" alt="" onerror="this.parentNode.textContent='FEATURE IMAGE'"></div>
+        <div>
+        </div>
+      </div>
+      <div class="comp-bottom-row">
+        <div class="comp-shot"><img src="assets/comp09-img2.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp09-img4.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+        <div class="comp-shot"><img src="assets/comp09-img5.jpg" alt="" onerror="this.parentNode.textContent='IMAGE'"></div>
+      </div>
+    </div>
+  </section>
+  <!-- ===== END COMPETITOR 09 ===== -->
+
+  <!-- ============================ KEY TAKEAWAYS & PIVOT POINTS ============================ -->
+  <section class="section-white" id="takeaways">
+    <div class="container">
+      <p class="eyebrow">Brand Landscape</p>
+      <h2 class="section-title">Key takeaways &amp; pivot points.</h2>
+      <p class="lede">What the brand landscape tells us — there is a large gap between the top tier and the rest, almost no storytelling or compelling branding, and a huge opportunity to express the building's design, features and lifestyle in a savvy, narrative way. <em style="font-weight:500">Think Monocle magazine and editorial stories over a ubiquitous template filled with stock photos and bullet points.</em></p>
+      <div class="kt-list">
+        <div class="kt-item"><span class="kt-num">01</span><span class="kt-text">Faux Beach <span style="color:var(--accent)">&gt; Cultured Coastal</span></span></div>
+        <div class="kt-item"><span class="kt-num">02</span><span class="kt-text">Cosmopolitan Luxe <span style="color:var(--accent)">&gt; Quiet Luxury</span></span></div>
+        <div class="kt-item"><span class="kt-num">03</span><span class="kt-text">Saturated &amp; Stock <span style="color:var(--accent)">&gt; Creative Connection</span></span></div>
+        <div class="kt-item"><span class="kt-num">04</span><span class="kt-text">Templates &amp; Bots <span style="color:var(--accent)">&gt; Styled &amp; Story-led</span></span></div>
+        <div class="kt-item"><span class="kt-num">05</span><span class="kt-text">Bulleted Interiors &amp; Amenities <span style="color:var(--accent)">&gt; Rich Details &amp; Interviews</span></span></div>
+        <div class="kt-item"><span class="kt-num">06</span><span class="kt-text">Neighborhoodless Maps <span style="color:var(--accent)">&gt; Day In The Life Journal</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ WALKABOUT — On-Foot Impression ============================ -->
+  <section class="section-black" id="walkabout">
+    <div class="container">
+      <p class="eyebrow">On-Foot Impression</p>
+      <h2 class="section-title">Walking the surrounding blocks.</h2>
+      <p class="lede">A real-life walk around 700 Colorado, through the neighborhood and other buildings.</p>
+      <div id="walkMontage" class="walk-stack">
+        <div class="montage">
+          <div class="tile t1"></div><div class="tile t2"></div><div class="tile t3"></div>
+          <div class="tile t4"></div><div class="tile t5"></div><div class="tile t6"></div>
+          <div class="tile t7"></div><div class="tile t8"></div>
+        </div>
+        <!-- featured Promenade frames -->
+        <div class="walk-interstitial">
+          <div class="cell"><img src="assets/walkabout/w144.jpg" alt="Third Street Promenade"></div>
+          <div class="cell"><img src="assets/walkabout/w145.jpg" alt="Google Store, Third Street Promenade"></div>
+          <div class="cell"><img src="assets/walkabout/w146.jpg" alt="Tesla, Santa Monica"></div>
+        </div>
+        <div class="montage">
+          <div class="tile t1"></div><div class="tile t2"></div><div class="tile t3"></div>
+          <div class="tile t4"></div><div class="tile t5"></div><div class="tile t6"></div>
+          <div class="tile t7"></div><div class="tile t8"></div>
+        </div>
+        <div class="montage">
+          <div class="tile t1"></div><div class="tile t2"></div><div class="tile t3"></div>
+          <div class="tile t4"></div><div class="tile t5"></div><div class="tile t6"></div>
+          <div class="tile t7"></div><div class="tile t8"></div>
+        </div>
+        <!-- static interstitial: three Proper frames -->
+        <div class="walk-interstitial">
+          <div class="cell"><img src="assets/walkabout/proper-01.jpg" alt="Santa Monica Proper" onerror="this.parentNode.textContent='PROPER 1'"></div>
+          <div class="cell"><img src="assets/walkabout/proper-02.jpg" alt="Santa Monica Proper" onerror="this.parentNode.textContent='PROPER 2'"></div>
+          <div class="cell rotator" id="proper-rotator"></div>
+        </div>
+        <div class="montage">
+          <div class="tile t1"></div><div class="tile t2"></div><div class="tile t3"></div>
+          <div class="tile t4"></div><div class="tile t5"></div><div class="tile t6"></div>
+          <div class="tile t7"></div><div class="tile t8"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ ADDRESSABLE MARKET (radius infographic) ============================ -->
+  <section class="section-black" id="market-radius">
+    <div class="container">
+      <p class="eyebrow">Addressable Market</p>
+      <h2 class="section-title">Spheres of influence.</h2>
+      <p class="lede">No more faux beach, pop colors and trite looks. But not so much so that we ignore the coastal influences and lifestyle that make Santa Monica unique versus other locations.</p>
+
+      <div class="mkt-grid">
+        <!-- diagram -->
+        <svg class="mkt-svg" viewBox="0 0 620 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Concentric market radius diagram">
+          <!-- rings -->
+          <circle cx="290" cy="265" r="235" fill="rgba(199,168,122,0.05)" stroke="rgba(199,168,122,0.32)" stroke-width="1" stroke-dasharray="3 5"/>
+          <circle cx="290" cy="265" r="150" fill="rgba(199,168,122,0.09)" stroke="rgba(199,168,122,0.5)" stroke-width="1"/>
+          <circle cx="290" cy="265" r="70"  fill="rgba(199,168,122,0.18)" stroke="#c7a87a" stroke-width="1.4"/>
+
+          <!-- pacific hint (west / empty side) -->
+          <text x="40" y="262" fill="rgba(246,245,242,0.30)" font-family="Inter,sans-serif" font-size="11" letter-spacing="3" transform="rotate(-90 40 262)">PACIFIC OCEAN</text>
+
+          <!-- region markers (east + south arc) -->
+          <g font-family="Inter,sans-serif" font-size="12" fill="rgba(246,245,242,0.82)">
+            <circle cx="396" cy="95"  r="3" fill="#c7a87a"/><text x="406" y="99">West Hollywood</text>
+            <circle cx="463" cy="165" r="3" fill="#c7a87a"/><text x="473" y="169">K-Town</text>
+            <circle cx="490" cy="258" r="4.5" fill="#c7a87a" stroke="#f6f5f2" stroke-width="1"/><text x="500" y="262" fill="#f6f5f2">Downtown LA</text>
+            <circle cx="463" cy="365" r="3" fill="#c7a87a"/><text x="473" y="369">Culver City</text>
+            <circle cx="396" cy="435" r="3" fill="#c7a87a"/><text x="406" y="439">Marina del Rey</text>
+            <circle cx="307" cy="464" r="3" fill="#c7a87a"/><text x="317" y="468">Playa Vista</text>
+          </g>
+
+          <!-- ring labels (pills on top edge) -->
+          <g font-family="Inter,sans-serif" font-size="11.5" font-weight="600" letter-spacing="1.5">
+            <g transform="translate(290,30)">
+              <rect x="-78" y="-12" width="156" height="23" rx="11.5" fill="#0a0a0a" stroke="rgba(199,168,122,0.45)"/>
+              <text x="0" y="4" text-anchor="middle" fill="#c7a87a">BROADER REGION</text>
+            </g>
+            <g transform="translate(290,115)">
+              <rect x="-76" y="-12" width="152" height="23" rx="11.5" fill="#0a0a0a" stroke="rgba(199,168,122,0.6)"/>
+              <text x="0" y="4" text-anchor="middle" fill="#c7a87a">DOWNTOWN SM</text>
+            </g>
+            <g transform="translate(290,195)">
+              <rect x="-60" y="-12" width="120" height="23" rx="11.5" fill="#0a0a0a" stroke="#c7a87a"/>
+              <text x="0" y="4" text-anchor="middle" fill="#c7a87a">IMMEDIATE</text>
+            </g>
+          </g>
+
+          <!-- center -->
+          <circle cx="290" cy="265" r="6" fill="#c7a87a"/>
+          <text x="290" y="288" text-anchor="middle" fill="#f6f5f2" font-family="Inter,sans-serif" font-size="12" font-weight="600" letter-spacing="1.5">700 COLORADO</text>
+        </svg>
+
+        <!-- legend -->
+        <div class="mkt-legend">
+          <div class="tier">
+            <div class="tnum">01 · IMMEDIATE</div>
+            <h3>The Intersection</h3>
+            <p>The buildings in our immediate location. <em>Our closest physical comps, head-to-head on in-person touring.</em> We want to win this but don't want the aperture so tight that we ignore the larger fight.</p>
+          </div>
+          <div class="tier">
+            <div class="tnum">02 · DOWNTOWN SANTA MONICA</div>
+            <h3>The District</h3>
+            <p>The walkable core that renters shop when they've already chosen Santa Monica. The broader set that we benchmark for impression, branding, design, amenities and rents.</p>
+          </div>
+          <div class="tier">
+            <div class="tnum">03 · BROADER REGION</div>
+            <h3>The Region</h3>
+            <p>The top of the funnel. Where neighborhood demand originates before the property is decided. The real job: pull renters west and sell Santa Monica against the rest of LA.</p>
+            <div class="regions">DTLA · K-Town · West Hollywood · Culver City · Marina del Rey · Playa Vista</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ SWOT ============================ -->
+  <section class="section-black" id="swot">
+    <div class="container">
+      <p class="eyebrow">SWOT Analysis</p>
+      <h2 class="section-title">Strengths, weaknesses, opportunities, threats.</h2>
+      <p class="lede">A candid read on the subject property's position, with initial insights, points of awareness and threads to pull on.</p>
+
+      <div class="swot-grid">
+        <div class="swot-cell s">
+          <h3><span class="dot"></span>Strengths</h3>
+          <ul>
+            <li><strong>New</strong> — we have the opportunity to react to the market and frame our position.</li>
+            <li><strong>Coastal</strong> — access to the beach and coastline, a walkable retail scene, temperate weather and an urbane vibe without the density and chaos of DTLA.</li>
+            <li><strong>Resurgence</strong> — Santa Monica is on the rebound with momentum and a forward story we can grab onto.</li>
+            <li><strong>Design</strong> — what inherent strengths and differences do we have in our aesthetic, amenities program, finishes and floor plans?</li>
+          </ul>
+        </div>
+        <div class="swot-cell w">
+          <h3><span class="dot"></span>Weaknesses</h3>
+          <ul>
+            <li><strong>New</strong> — we have to get seen, online and physically, and get our story out there against established residences that have search traction, lease-renewal stickiness and non-resident traffic (Vons, TJs).</li>
+            <li><strong>Visibility</strong> — our street presence isn't quite on par with some neighboring comps; our signage will need to work a bit harder.</li>
+            <li><strong>Transit</strong> — the transit connection is a huge benefit, but we have to balance the extra energy it brings to our doorstep.</li>
+            <li><strong>Zombies</strong> — the street scene is improving and is clearly better than DTLA, but it's something to be aware of.</li>
+          </ul>
+        </div>
+        <div class="swot-cell o">
+          <h3><span class="dot"></span>Opportunities</h3>
+          <ul>
+            <li><strong>Story</strong> — actual branding with a unique perspective, narrative and look that expresses the building and lifestyle in an authentic way.</li>
+            <li><strong>Creative Class</strong> — drawing on Santa Monica's deep heritage of design, architecture, art and creative culture that has made it a long-standing destination for the savvy and styled (we miss you, Fred Segal).</li>
+            <li><strong>Trend-Forward</strong> — a compelling aesthetic that goes beyond the current generation of fairly expected residences.</li>
+            <li><strong>Niche Amenities</strong> — special spaces, nooks, gatherings, collabs, surprises… anything but the standard bullet list of features. Boutique and thoughtful vs commodity.</li>
+            <li><strong>Arrival</strong> — getting seen online is one thing; the physical approach and leasing entries at adjacent properties are a confusion of signage-ridden hardscape and redirects — anything but a good first impression.</li>
+          </ul>
+        </div>
+        <div class="swot-cell t">
+          <h3><span class="dot"></span>Threats</h3>
+          <ul>
+            <li><strong>Newcomers</strong> — new towers and planned projects with unknown interiors, amenities and price points. Expect more competition, not less.</li>
+            <li><strong>Culver/MDR/Westside</strong> — a wave of new projects with similar "central" pitch, some closer to tech, new media and LA core but further from the beach and a true coastal experience.</li>
+            <li><strong>Blending In</strong> — there are five or six large residences within a block radius, signage everywhere and mixed entry points; some of it is starting to feel commoditized.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ CREATIVE EXERCISE ============================ -->
+  <section class="section-white" id="creative-exercise">
+    <div class="container">
+      <p class="eyebrow">Creative Exercise</p>
+      <h2 class="section-title">If this building were a hotel…</h2>
+      <p class="lede cx-intro">A group session — imagining and instigating, no constraints, no wrong answers. The goal is to find a thread to pull on as we begin to define the vision, position, and story. What makes 700 Colorado unique, and unmistakably different in this market.</p>
+
+      <div class="cx-grid">
+        <div class="cx-card"><div class="cx-n">01</div><div class="cx-q">If we were a hotel, what brand would we be?</div><div class="cx-hint">Proper, Palihouse, W?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">02</div><div class="cx-q">What's the overall vibe — in three words?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">03</div><div class="cx-q">Walk through the door — what's the signature scent?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">04</div><div class="cx-q">What's the soundtrack of the space?</div><div class="cx-hint">Ambient or intentional playlist? Overt or in the background?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">05</div><div class="cx-q">What's the tone of the staff?</div><div class="cx-hint">Warm? Candid? Discreet? Creative?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">06</div><div class="cx-q">What artwork is on the walls?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">07</div><div class="cx-q">Who curates the coffee bar?</div><div class="cx-hint">Blue Bottle or Chamberlain?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">08</div><div class="cx-q">What brand collabs on the bathroom apothecary?</div><div class="cx-hint">Aesop, D.S. &amp; Durga, Erewhon?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">09</div><div class="cx-q">The signature drink at the pool pop-up?</div><div class="cx-hint">Aperol? Bero? Moon Juice?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">10</div><div class="cx-q">What's parked in the garage?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">11</div><div class="cx-q">The one detail people tell their friends about?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">12</div><div class="cx-q">Who is our furniture collab brand?</div><div class="cx-hint">West Elm, DWR or Stephen Kenn…?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">13</div><div class="cx-q">Who hosts our running club?</div><div class="cx-hint">Nike, Hoka, On?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">14</div><div class="cx-q">Who curates the al fresco kitchen &amp; dining?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">15</div><div class="cx-q">What's our favorite brand for an easy Sunday?</div><div class="cx-hint">James Perse or J.Crew?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">16</div><div class="cx-q">What's a dream amenity?</div><div class="cx-hint">No VE allowed.</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">17</div><div class="cx-q">Breakfast on Montana — on foot, bike or Uber?</div><div class="cx-blank"></div></div>
+        <div class="cx-card"><div class="cx-n">18</div><div class="cx-q">What's our ideal retail tenant?</div><div class="cx-hint">if we had a lobby café, bar or boutique?</div><div class="cx-blank"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ FOOTER ============================ -->
+  <footer class="section-black">
+    <div class="container foot-inner">
+      <span>700 Colorado — Vision Session · working draft</span>
+      <a href="#" class="top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script>
+    (function(){
+      var PAD=function(n){return String(n).padStart(3,'0');},
+          SRC=function(n){return 'assets/walkabout/w'+PAD(n)+'.jpg';};
+      // Proper appears 7× in the walk; drop them all here (kept as the large tiles)
+      var EXCLUDE={1:1,71:1,72:1,108:1,122:1,131:1,143:1};
+      var FRAMES=[]; for(var i=1;i<=155;i++){ if(!EXCLUDE[i]) FRAMES.push(i); }
+      var tiles=[].slice.call(document.querySelectorAll('#walkMontage .tile'));
+      var N=tiles.length, seg=Math.floor(FRAMES.length/N);
+      tiles.forEach(function(t,idx){
+        var sIdx=idx*seg, eIdx=(idx===N-1)?FRAMES.length:(idx+1)*seg, j=sIdx;
+        var a=document.createElement('div'); a.className='layer show';
+        var b=document.createElement('div'); b.className='layer';
+        var ia=document.createElement('img'); ia.src=SRC(FRAMES[j]); ia.loading='lazy'; a.appendChild(ia);
+        var ib=document.createElement('img'); ib.loading='lazy'; b.appendChild(ib);
+        t.appendChild(a); t.appendChild(b);
+        var front=a, back=b, bimg=ib;
+        setInterval(function(){
+          j = (j>=eIdx-1) ? sIdx : j+1;
+          bimg.src=SRC(FRAMES[j]);
+          back.classList.add('show'); front.classList.remove('show');
+          var tmp=front; front=back; back=tmp;
+          bimg = back.querySelector('img');
+        }, 2600+idx*430);
+      });
+    })();
+  </script>
+
+  <script>
+    (function(){
+      var box=document.getElementById('proper-rotator'); if(!box) return;
+      var seq=['proper-03','proper-04','proper-05','proper-06','proper-07'];
+      var SRC=function(n){return 'assets/walkabout/'+n+'.jpg';};
+      var a=document.createElement('div'); a.className='layer show';
+      var b=document.createElement('div'); b.className='layer';
+      var ia=document.createElement('img'); ia.src=SRC(seq[0]); a.appendChild(ia);
+      var ib=document.createElement('img'); b.appendChild(ib);
+      box.appendChild(a); box.appendChild(b);
+      var i=0, front=a, back=b;
+      setInterval(function(){
+        i=(i+1)%seq.length;
+        back.querySelector('img').src=SRC(seq[i]);
+        back.classList.add('show'); front.classList.remove('show');
+        var t=front; front=back; back=t;
+      }, 2000);
+    })();
+  </script>
+
+</body>
+</html>
